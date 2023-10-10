@@ -3,6 +3,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:get/get.dart';
 import 'package:getx_tutorial/screen_one.dart';
+import 'package:getx_tutorial/screen_three.dart';
+import 'package:getx_tutorial/screen_two.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -48,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   onTap: () {
                     Get.bottomSheet(
                       Container(
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(40),
                                 topRight: Radius.circular(40)),
@@ -56,15 +58,15 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Column(
                           children: [
                             ListTile(
-                              leading: Icon(Icons.light_mode),
-                              title: Text("Light Mode"),
+                              leading: const Icon(Icons.light_mode),
+                              title: const Text("Light Mode"),
                               onTap: () {
                                 Get.changeTheme(ThemeData.light());
                               },
                             ),
                             ListTile(
-                              leading: Icon(Icons.dark_mode),
-                              title: Text("Dark Mode"),
+                              leading: const Icon(Icons.dark_mode),
+                              title: const Text("Dark Mode"),
                               onTap: () {
                                 Get.changeTheme(
                                   ThemeData.dark(),
@@ -90,13 +92,51 @@ class _HomeScreenState extends State<HomeScreen> {
                   borderRadius: BorderRadius.circular(15),
                   color: Colors.teal,
                 ),
-                child: Center(
+                child: const Center(
                     child: Text(
                   "Screen One",
                   style: TextStyle(color: Colors.white, fontSize: 25.0),
                 )),
               ),
-            )
+            ),
+            SizedBox(height: 15),
+            InkWell(
+              onTap: () {
+                Get.to(TabView());
+              },
+              child: Container(
+                height: 60,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: Colors.teal,
+                ),
+                child: const Center(
+                    child: Text(
+                  "TabBar",
+                  style: TextStyle(color: Colors.white, fontSize: 25.0),
+                )),
+              ),
+            ),
+            SizedBox(height: 15),
+            InkWell(
+              onTap: () {
+                Get.to(ScreenThree());
+              },
+              child: Container(
+                height: 60,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: Colors.teal,
+                ),
+                child: const Center(
+                    child: Text(
+                  "Image-Picker",
+                  style: TextStyle(color: Colors.white, fontSize: 25.0),
+                )),
+              ),
+            ),
           ],
         ),
       ),
@@ -104,8 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
           backgroundColor: Colors.teal,
           child: Icon(Icons.add),
           onPressed: () {
-            Get.snackbar("Yaseen Mughal",
-                "Alhamdulillah hire in DigiCop Solution with 40-45k",
+            Get.snackbar("Yaseen Mughal", "Alhamdulillah for everything",
                 snackStyle: SnackStyle.FLOATING,
                 colorText: Color.fromARGB(255, 238, 236, 234),
                 backgroundColor: Colors.teal,
