@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:get/get.dart';
 import 'package:getx_tutorial/screen_one.dart';
-import 'package:getx_tutorial/screen_three.dart';
+import 'package:getx_tutorial/image_picker.dart';
 import 'package:getx_tutorial/screen_two.dart';
+import 'package:getx_tutorial/video_player.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -19,34 +18,36 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: Colors.grey[300],
       appBar: AppBar(
-        title: Text("GETX TUTORIAL"),
+        title: const Text("GETX TUTORIAL"),
         centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Column(
           children: [
+            // dialog box
             Card(
               child: ListTile(
-                title: Text("Alert Dialog Getx"),
-                subtitle: Text("Alert Dialog with the Getx"),
+                title: const Text("Alert Dialog Getx"),
+                subtitle: const Text("Alert Dialog with the Getx"),
                 onTap: () {
                   Get.defaultDialog(
                       title: "Delete Chat",
                       middleText: "Are you sure to delete the chat",
                       textConfirm: "Yes",
-                      titlePadding: EdgeInsets.only(top: 20),
-                      contentPadding: EdgeInsets.all(20),
+                      titlePadding: const EdgeInsets.only(top: 20),
+                      contentPadding: const EdgeInsets.all(20),
                       textCancel: "No");
                 },
               ),
             ),
+            // bottom sheet
             Padding(
               padding: const EdgeInsets.only(top: 10, bottom: 10),
               child: Card(
                 child: ListTile(
-                  title: Text("Bottom Sheet"),
-                  subtitle: Text("Bottom Sheet with the Getx"),
+                  title: const Text("Bottom Sheet"),
+                  subtitle: const Text("Bottom Sheet with the Getx"),
                   onTap: () {
                     Get.bottomSheet(
                       Container(
@@ -81,75 +82,47 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            InkWell(
-              onTap: () {
-                Get.to(ScreenOne());
-              },
-              child: Container(
-                height: 60,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  color: Colors.teal,
-                ),
-                child: const Center(
-                    child: Text(
-                  "Screen One",
-                  style: TextStyle(color: Colors.white, fontSize: 25.0),
-                )),
-              ),
-            ),
-            SizedBox(height: 15),
-            InkWell(
-              onTap: () {
-                Get.to(TabView());
-              },
-              child: Container(
-                height: 60,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  color: Colors.teal,
-                ),
-                child: const Center(
-                    child: Text(
-                  "TabBar",
-                  style: TextStyle(color: Colors.white, fontSize: 25.0),
-                )),
-              ),
-            ),
-            SizedBox(height: 15),
-            InkWell(
-              onTap: () {
-                Get.to(ScreenThree());
-              },
-              child: Container(
-                height: 60,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  color: Colors.teal,
-                ),
-                child: const Center(
-                    child: Text(
-                  "Image-Picker",
-                  style: TextStyle(color: Colors.white, fontSize: 25.0),
-                )),
-              ),
-            ),
+            customBox(navigate: ScreenOne(), text: "Text-Field's"),
+            const SizedBox(height: 15),
+            customBox(navigate: const TabView(), text: "TabBar"),
+            const SizedBox(height: 15),
+            customBox(navigate: const ImagePickerView(), text: "Image-Picker"),
+            const SizedBox(height: 15),
+            customBox(navigate: VideoPlayerView(), text: "Video-Player")
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.teal,
-          child: Icon(Icons.add),
+          child: const Icon(Icons.add),
           onPressed: () {
             Get.snackbar("Yaseen Mughal", "Alhamdulillah for everything",
                 snackStyle: SnackStyle.FLOATING,
-                colorText: Color.fromARGB(255, 238, 236, 234),
+                colorText: const Color.fromARGB(255, 238, 236, 234),
                 backgroundColor: Colors.teal,
                 snackPosition: SnackPosition.BOTTOM);
           }),
     );
   }
+}
+
+customBox({required Widget navigate, required String text}) {
+  return InkWell(
+    onTap: () {
+      Get.to(navigate);
+    },
+    child: Container(
+      height: 60,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        color: Colors.teal,
+      ),
+      child: Center(
+          child: Text(
+        text,
+        style: const TextStyle(color: Colors.white, fontSize: 25.0),
+      )),
+    ),
+  );
 }
