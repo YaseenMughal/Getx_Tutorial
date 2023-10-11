@@ -1,44 +1,5 @@
-import 'package:appinio_video_player/appinio_video_player.dart';
 import 'package:flutter/material.dart';
-
-// class VideoPlayerView extends StatefulWidget {
-//   const VideoPlayerView({super.key});
-
-//   @override
-//   State<VideoPlayerView> createState() => _VideoPlayerViewState();
-// }
-
-// class _VideoPlayerViewState extends State<VideoPlayerView> {
-//   late CustomVideoPlayerController _customVideoPlayerController;
-
-//   String gymvideopath =
-//       "assets/videos/pexels-tima-miroshnichenko-5319759 (2160p).mp4";
-
-//   @override
-//   void initState() {
-//     // TODO: implement initState
-//     super.initState();
-//     initializeVideoPlayer();
-//   }
-
-//   void initializeVideoPlayer() {
-//     VideoPlayerController _videoPlayerController;
-//     _videoPlayerController = VideoPlayerController.asset(gymvideopath)
-//       ..initialize().then((value) {
-//         setState(() {});
-//       });
-//     _customVideoPlayerController = CustomVideoPlayerController(
-//         context: context, videoPlayerController: _videoPlayerController);
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: CustomVideoPlayer(
-//           customVideoPlayerController: _customVideoPlayerController),
-//     );
-//   }
-// }
+import 'package:video_player/video_player.dart';
 
 class VideoPlayerView extends StatefulWidget {
   @override
@@ -50,48 +11,70 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
 
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
-    _controller = VideoPlayerController.asset(
-        "assets/videos/pexels-tima-miroshnichenko-5319759 (2160p).mp4")
+    _controller = VideoPlayerController.networkUrl(Uri.parse(
+        "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"))
       ..initialize().then((_) {
         setState(() {});
       });
   }
 
   @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Video Player Example'),
+        title: Text('Video-Player'),
       ),
       body: Center(
-        child: _controller.value.isInitialized
-            ? AspectRatio(
-                aspectRatio: _controller.value.aspectRatio,
-                child: VideoPlayer(_controller),
-              )
-            : CircularProgressIndicator(),
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _controller.value.isInitialized
+                  ? AspectRatio(
+                      aspectRatio: _controller.value.aspectRatio,
+                      child: VideoPlayer(_controller),
+                    )
+                  : CircularProgressIndicator(
+                      color: Colors.teal,
+                    ),
+              IconButton(
+                  onPressed: () {
+                    setState(() {});
+                    _controller.value.isPlaying
+                        ? _controller.pause()
+                        : _controller.play();
+                  },
+                  icon: Icon(
+                    _controller.value.isPlaying
+                        ? Icons.pause_circle_outline_outlined
+                        : Icons.play_circle_outline_outlined,
+                    size: 35.0,
+                  )),
+            ],
+          ),
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() {
-            if (_controller.value.isPlaying) {
-              _controller.pause();
-            } else {
-              _controller.play();
-            }
+            _controller.value.isPlaying
+                ? _controller.pause()
+                : _controller.play();
           });
         },
-        child: Icon(
-          _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-        ),
+        child:
+            Icon(_controller.value.isPlaying ? Icons.pause : Icons.play_arrow),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
   }
 }
